@@ -114,10 +114,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     ArrayList al = new ArrayList();
 
 
-    TextView textViewX;
-    TextView textViewY;
-    TextView textViewZ;
-    TextView textViewMax;
+    TextView textView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,14 +122,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         setContentView(R.layout.activity_main);
 
-        textViewX = (TextView) findViewById(R.id.textView);
-        textViewY = (TextView) findViewById(R.id.textView2);
-        textViewZ = (TextView) findViewById(R.id.textView3);
-        textViewMax = (TextView) findViewById(R.id.textView4);
-        //textViewSamples = (TextView) findViewById(R.id.textView5);
+        textView = (TextView) findViewById(R.id.textView);
 
         mVisible = true;
-        mControlsView = findViewById(R.id.fullscreen_content_controls);
         mContentView = findViewById(R.id.fullscreen_content);
 
         // Set up the user interaction to manually show or hide the system UI.
@@ -146,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         // Upon interacting with UI controls, delay any scheduled hide()
         // operations to prevent the jarring behavior of controls going away
         // while interacting with the UI.
-        findViewById(R.id.initiate).setOnTouchListener(mDelayHideTouchListener);
+        findViewById(R.id.start).setOnTouchListener(mDelayHideTouchListener);
 
         senSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 
@@ -158,7 +150,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
 
         final SensorEventListener context = this;
-        final Button button = (Button) findViewById(R.id.initiate);
+        final Button button = (Button)findViewById(R.id.start);
 
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -179,13 +171,27 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
                     List<Markers> marks = markReadings(smoothedReadings);
 
+                    StringBuilder console = new StringBuilder();
+
+                    for(int i = 0; i < marks.size(); i++){
+                        int jumpNum = i + 1;
+                        double hangTime = marks.get(i).hangTime/ONE_SEC;
+                        double height = (hangTime * hangTime) * 4.9;
+                        double maxAcc = findMaxAcc(marks.get(i).liftPhase);
+                        console.append(String.format("---  Jump : %s  ---\n", jumpNum));
+                        console.append(String.format("Hang Time :    %.3f\n", hangTime));
+                        console.append(String.format("Height :       %.3f\n", height));
+                        console.append(String.format("Max Accel. :   %.3f\n", maxAcc));
+                        console.append("\n");
+                    }
+
                     //textViewMax.setText(String.format("Samples: %s", marks.get(0).liftPhase.size()));
                     //textViewMax.setText(String.format("Hang: %s", marks.get(0).hangTime/ONE_SEC));
                     //textViewMax.setText(String.format("Count: %s", marks.size()));
-                    textViewMax.setText(String.format("dV: %s", integrate(marks.get(0).liftPhase)));
+                    //textViewMax.setText(String.format("dV: %s", integrate(marks.get(0).liftPhase)));
                     //textViewMax.setText(String.format("MaxAcc: %s", findMaxAcc(marks.get(0).liftPhase)));
 
-
+                    textView.setText(console.toString());
                 }
             }
         });
@@ -260,7 +266,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     stateMachineNum = 4;
                 }
             } else if(stateMachineNum == 4){
-                if(reading.time - timeMark > 1.5 * ONE_SEC){
+                if(reading.time - timeMark > 1.0 * ONE_SEC){
                     stateMachineNum = 0;
                     result = new Markers();
                 }
@@ -382,10 +388,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 Matrix.invertM(Ri, 0, R, 0);
 
                 Matrix.multiplyMV(Va, 0, Ri, 0, Vf, 0);
-
-                textViewX.setText(String.format("H : %.3f", Math.sqrt(Va[0] * Va[0]) + (Va[1] * Va[1])));
-                textViewY.setText(String.format("Y : %.3f", Va[2]-9.8f));
-                textViewZ.setText(String.format("Z : %.3f", Va[1]));
+//
+//                textViewX.setText(String.format("H : %.3f", Math.sqrt(Va[0] * Va[0]) + (Va[1] * Va[1])));
+//                textViewY.setText(String.format("Y : %.3f", Va[2]-9.8f));
+//                textViewZ.setText(String.format("Z : %.3f", Va[1]));
 
                 double yAdjust = Va[2] - 9.8;
 

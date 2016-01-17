@@ -23,6 +23,16 @@
             android:name=".MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_main"
+            android:theme="@style/FullscreenTheme" />
+        <activity
+            android:name=".ActivityTrackRecord"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_activity_track_record"
+            android:theme="@style/FullscreenTheme" />
+        <activity
+            android:name=".ActivityRecord"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_activity_record"
             android:theme="@style/FullscreenTheme"></activity>
     </application>
 

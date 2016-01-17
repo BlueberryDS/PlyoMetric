@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">StepsCount</string>
+
+
+    <string name="title_activity_main">MainActivity</string>
+    <string name="initiate_count">Start counting!</string>
+    <string name="greeting">Every step counts!</string>
+</resources>

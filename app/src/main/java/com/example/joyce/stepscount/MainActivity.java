@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
      * and a change of the status and navigation bar.
      */
     private static final int UI_ANIMATION_DELAY = 300;
+    private static final double ONE_SEC = 1000000000.0;
     private final Handler mHideHandler = new Handler();
     private View mContentView;
     private final Runnable mHidePart2Runnable = new Runnable() {
@@ -107,8 +108,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private Sensor senAccelerometer;
     private Sensor senGrav;
     private Sensor senMag;
-    private static final float smoothValue = 3;
-    private static int numOfJump = 0;
+    private static final float smoothValue = 5;
 
     // Find the time when accerlation is zero
     ArrayList al = new ArrayList();
@@ -118,10 +118,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     TextView textViewY;
     TextView textViewZ;
     TextView textViewMax;
-    TextView textViewSamples;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        hide();
 
         setContentView(R.layout.activity_main);
 
@@ -168,7 +168,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     senSensorManager.registerListener(context, senAccelerometer, SensorManager.SENSOR_DELAY_FASTEST);
                     senSensorManager.registerListener(context, senGrav, SensorManager.SENSOR_DELAY_FASTEST);
                     senSensorManager.registerListener(context, senMag, SensorManager.SENSOR_DELAY_FASTEST);
-                    numOfJump++;
                     yReadings.clear();
                 }
                 else if ("end".equals(button.getText())) {
@@ -176,19 +175,35 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     //unregister listener
                     senSensorManager.unregisterListener(context);
                     //Analyse
-                    List<Reading> smoothedReadings = lowpass(yReadings, 0.01);
+                    List<Reading> smoothedReadings = lowpass(yReadings, 0.1);
 
-                    Markers mark = markReadings(smoothedReadings);
+                    List<Markers> marks = markReadings(smoothedReadings);
 
-                    //textViewSamples.setText(String.format("Samples: %s", mark.liftPhase.size()));
+                    //textViewMax.setText(String.format("Samples: %s", marks.get(0).liftPhase.size()));
+                    //textViewMax.setText(String.format("Hang: %s", marks.get(0).hangTime/ONE_SEC));
+                    //textViewMax.setText(String.format("Count: %s", marks.size()));
+                    textViewMax.setText(String.format("dV: %s", integrate(marks.get(0).liftPhase)));
+                    //textViewMax.setText(String.format("MaxAcc: %s", findMaxAcc(marks.get(0).liftPhase)));
 
-                    textViewMax.setText(String.format("Max Acc: %.3f", findMaxAcc(mark.liftPhase )));
-                    numOfJump =0;
 
                 }
             }
         });
     }
+
+    private double integrate(List<Reading> in){
+        Reading old = in.get(0);
+        double result = 0;
+
+        for(int i = 1; i < in.size(); i++){
+            Reading reading = in.get(i);
+            result += ((old.value + reading.value) / 2.0) * ((double)(reading.time - old.time) / ONE_SEC);
+            old = reading;
+        }
+
+        return result;
+    }
+
     private List<Reading> lowpass(List<Reading> in, double RC){
         List<Reading> result = new ArrayList<Reading>();
         result.add(in.get(0));
@@ -198,7 +213,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             return in;
 
         for(int i = 1; i < in.size(); i++){
-            double dt = (in.get(i).time - in.get(i - 1).time) / 1000.0;
+            double dt = (in.get(i).time - in.get(i - 1).time) / ONE_SEC;
 
             double a = dt / (dt + RC);
 
@@ -211,27 +226,44 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     static class Markers{
         List<Reading> liftPhase = new ArrayList<Reading>();
         Reading dipPoint;
+        long hangTime;
     }
 
-    private Markers markReadings(List<Reading> readings){
-        Markers results = new Markers();
+    private List<Markers> markReadings(List<Reading> readings){
+        List<Markers> results = new ArrayList<Markers>();
         int stateMachineNum = 0;
+        long timeMark = 0;
+        Markers result = new Markers();
 
         for(Reading reading : readings) {
             if (stateMachineNum == 0) {
                 if (reading.value < -smoothValue) {
                     stateMachineNum = 1;
-                    results.dipPoint = reading;
+                    result.dipPoint = reading;
                 }
             } else if (stateMachineNum == 1) {
                 if (reading.value > 0) {
                     stateMachineNum = 2;
-                    results.liftPhase.add(reading);
+                    result.liftPhase.add(reading);
                 }
             } else if (stateMachineNum == 2) {
-                results.liftPhase.add(reading);
-                if (reading.value < 0)
-                    break;
+                result.liftPhase.add(reading);
+                if (reading.value < 0) {
+                    result.hangTime = reading.time;
+                    stateMachineNum = 3;
+                }
+            } else if(stateMachineNum == 3){
+                if (reading.value > 0){
+                    result.hangTime = reading.time - result.hangTime;
+                    timeMark = reading.time;
+                    results.add(result);
+                    stateMachineNum = 4;
+                }
+            } else if(stateMachineNum == 4){
+                if(reading.time - timeMark > 1.5 * ONE_SEC){
+                    stateMachineNum = 0;
+                    result = new Markers();
+                }
             }
         }
         return results;
@@ -255,7 +287,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         // Trigger the initial hide() shortly after the activity has been
         // created, to briefly hint to the user that UI controls
         // are available.
-        delayedHide(100);
+        //delayedHide(0);
     }
 
     private void toggle() {
@@ -323,7 +355,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
     List<Reading> yReadings = new ArrayList<Reading>();
-
+    float oldY = 0;
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
         Sensor mySensor = sensorEvent.sensor;
@@ -355,7 +387,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 textViewY.setText(String.format("Y : %.3f", Va[2]-9.8f));
                 textViewZ.setText(String.format("Z : %.3f", Va[1]));
 
-                yReadings.add(new Reading(sensorEvent.timestamp, Va[2] - 9.8));
+                double yAdjust = Va[2] - 9.8;
+
+                yReadings.add(new Reading(sensorEvent.timestamp, yAdjust));
             }
         } else if (mySensor.getType() == Sensor.TYPE_GRAVITY) {
             gravValues = sensorEvent.values.clone();

@@ -1,14 +1,16 @@
 <resources>
-    <string name="app_name">StepsCount</string>
+    <string name="app_name">PlyoMetric</string>
 
 
     <string name="title_activity_main">MainActivity</string>
     <string name="initiate_count">Start counting!</string>
-    <string name="greeting">Every step counts!</string>
+    <string name="greeting">Metrics Into Plyometrics</string>
 
     <string name="title_activity_activity_track_record">ActivityTrackRecord</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
 
     <string name="title_activity_activity_record">ActivityRecord</string>
+
+    <string name="title_activity_records">RecordsActivity</string>
 </resources>

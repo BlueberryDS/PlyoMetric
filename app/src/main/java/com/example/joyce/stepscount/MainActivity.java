@@ -2,6 +2,7 @@ package com.example.joyce.stepscount;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.opengl.Matrix;
@@ -125,7 +127,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         textView = (TextView) findViewById(R.id.textView);
 
         mVisible = true;
-        mContentView = findViewById(R.id.fullscreen_content);
+        mContentView = findViewById(R.id.imageView2);
 
         // Set up the user interaction to manually show or hide the system UI.
         //mContentView.setOnClickListener(new View.OnClickListener() {
@@ -148,6 +150,17 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         senMag = senSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
 
+        final MainActivity th = this;
+
+        final ImageButton recordButton = (ImageButton) findViewById(R.id.record);
+        recordButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(th, RecordsActivity.class);
+                th.startActivity(myIntent);
+            }
+        });
 
         final SensorEventListener context = this;
         final Button button = (Button)findViewById(R.id.start);
@@ -180,9 +193,30 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                         double maxAcc = findMaxAcc(marks.get(i).liftPhase);
                         console.append(String.format("---  Jump : %s  ---\n", jumpNum));
                         console.append(String.format("Hang Time :    %.3f\n", hangTime));
+                        if(hangTime > RecordsActivity.hang){
+                            console.append("RECORD BROKEN!\n");
+                            RecordsActivity.hang = hangTime;
+                            RecordsActivity.breaks++;
+                        }
                         console.append(String.format("Height :       %.3f\n", height));
+                        if(height > RecordsActivity.height){
+                            console.append("RECORD BROKEN!\n");
+                            RecordsActivity.height = height;
+                            RecordsActivity.breaks++;
+                        }
                         console.append(String.format("Max Accel. :   %.3f\n", maxAcc));
+                        if(maxAcc > RecordsActivity.accel){
+                            console.append("RECORD BROKEN!\n");
+                            RecordsActivity.accel = maxAcc;
+                            RecordsActivity.breaks++;
+                        }
                         console.append("\n");
+                    }
+
+                    if(marks.size() > RecordsActivity.consec){
+                        console.append("MOST CONSECUTIVE JUMPS!\n\n");
+                        RecordsActivity.consec = marks.size();
+                        RecordsActivity.breaks++;
                     }
 
                     //textViewMax.setText(String.format("Samples: %s", marks.get(0).liftPhase.size()));

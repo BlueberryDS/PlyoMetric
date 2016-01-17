@@ -1,0 +1,181 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0099cc"
+    tools:context="com.example.joyce.stepscount.RecordsActivity">
+
+    <!-- The primary full-screen view. This can be replaced with whatever view
+         is needed to present your content, e.g. VideoView, SurfaceView,
+         TextureView, etc. -->
+
+    <!-- This FrameLayout insets its children based on system windows using
+         android:fitsSystemWindows. -->
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#1a1a1a">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Records Broken\n0"
+            android:id="@+id/broken"
+            android:layout_gravity="center_horizontal"
+            android:background="#78c59c"
+            android:padding="20dp"
+            android:textAlignment="center" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center_horizontal">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_gravity="center_horizontal"
+                android:weightSum="1"
+                android:layout_weight="1">
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="0.000"
+                    android:id="@+id/hang"
+                    android:layout_weight="0.5"
+                    android:textAlignment="center"
+                    android:textSize="100px"
+                    android:textColor="#ffffff"
+                    android:paddingTop="25dp" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="0.000"
+                    android:id="@+id/height"
+                    android:layout_weight="0.5"
+                    android:textAlignment="center"
+                    android:textSize="100px"
+                    android:textColor="#ffffff"
+                    android:paddingTop="25dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_gravity="center_horizontal"
+                android:weightSum="1"
+                android:layout_weight="1" >
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Hang Time"
+                    android:id="@+id/textView3"
+                    android:layout_weight="0.5"
+                    android:textAlignment="center"
+                    android:textSize="50px"
+                    android:textColor="#ffffff" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Height"
+                    android:id="@+id/textView6"
+                    android:layout_weight="0.5"
+                    android:textAlignment="center"
+                    android:textSize="50px"
+                    android:textColor="#ffffff" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_gravity="center_horizontal"
+                android:weightSum="1"
+                android:layout_weight="1" >
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="0.000"
+                    android:id="@+id/accel"
+                    android:layout_weight="0.5"
+                    android:textAlignment="center"
+                    android:textSize="100px"
+                    android:textColor="#ffffff"
+                    android:paddingTop="25dp" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="0.000"
+                    android:id="@+id/consec"
+                    android:layout_weight="0.5"
+                    android:textAlignment="center"
+                    android:textSize="100px"
+                    android:textColor="#ffffff"
+                    android:paddingTop="25dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_gravity="center_horizontal"
+                android:weightSum="1"
+                android:layout_weight="1" >
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Acceleration"
+                    android:id="@+id/textView9"
+                    android:layout_weight="0.5"
+                    android:textAlignment="center"
+                    android:textSize="50px"
+                    android:textColor="#ffffff" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Consecutive Jumps"
+                    android:id="@+id/textView10"
+                    android:layout_weight="0.5"
+                    android:textAlignment="center"
+                    android:textSize="50px"
+                    android:textColor="#ffffff" />
+            </LinearLayout>
+
+            <Button
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:text="Share"
+                android:id="@+id/share"
+                android:layout_gravity="center"
+                android:clickable="true"
+                android:background="#3b5998"
+                android:textColor="#ffffff"
+                android:layout_margin="20dp"
+                android:enabled="true" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</FrameLayout>

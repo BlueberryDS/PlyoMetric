@@ -13,4 +13,8 @@
     <string name="title_activity_activity_record">ActivityRecord</string>
 
     <string name="title_activity_records">RecordsActivity</string>
+
+    <string name="facebook_app_id">468433336673090</string>
+    <string name="title_activity_fb">fb</string>
+
 </resources>

@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0099cc"
+    android:background="@drawable/main"
     tools:context="com.example.joyce.stepscount.MainActivity">
 
     <!-- The primary full-screen view. This can be replaced with whatever view
@@ -14,64 +14,52 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:keepScreenOn="true"
-        android:textColor="#33b5e5"
-        android:textSize="50sp"
-        android:textStyle="bold"
-        android:backgroundTint="#ffffff"
+        android:backgroundTint="#fefefe"
         android:background="#ffffff" />
 
     <!-- This FrameLayout insets its children based on system windows using
          android:fitsSystemWindows. -->
-    <LinearLayout
-        android:id="@+id/fullscreen_content_controls"
-        style="?metaButtonBarStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center_horizontal"
-        android:background="@color/black_overlay"
-        android:orientation="horizontal"
-        tools:ignore="UselessParent">
 
-        <Button
-            android:id="@+id/initiate"
-            style="?metaButtonBarButtonStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_weight="2"
-            android:text="start" />
+    <ImageButton
+        android:layout_width="110dp"
+        android:layout_height="100dp"
+        android:id="@+id/record"
+        android:background="@drawable/trophy"
+        android:layout_gravity="right|bottom"
+        android:layout_marginBottom="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_margin="20dp" />
 
-    </LinearLayout>
+    <Button
+        android:layout_width="175dp"
+        android:layout_height="95dp"
+        android:text="start"
+        android:id="@+id/start"
+        android:layout_gravity="bottom|left"
+        android:background="#73c399"
+        android:textSize="70px"
+        android:focusable="true"
+        android:layout_margin="25dp"
+        android:clickable="true"
+        android:textColor="#ffffff" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="X:"
-        android:id="@+id/textView"
-        android:layout_gravity="left|top" />
+    <ScrollView
+        android:layout_width="330dp"
+        android:layout_height="475dp"
+        android:id="@+id/scrollView"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:background="#78c59c"
+        android:layout_marginBottom="30dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Y:"
-        android:id="@+id/textView2"
-        android:layout_gravity="center_horizontal|top" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Z:"
-        android:id="@+id/textView3"
-        android:layout_gravity="right|top" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:id="@+id/textView4"
-        android:layout_gravity="center" />
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/textView"
+            android:layout_gravity="center_horizontal|top"
+            android:text="Press Start to Record!"
+            android:padding="25dp"
+            android:textColor="#ffffff" />
+    </ScrollView>
 
 </FrameLayout>

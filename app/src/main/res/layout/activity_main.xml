@@ -19,48 +19,60 @@
         android:src="#1a1a1a"
         android:scaleType="centerCrop" />
 
-    <ImageButton
-        android:layout_width="110dp"
-        android:layout_height="100dp"
-        android:id="@+id/record"
-        android:background="@drawable/trophy"
-        android:layout_gravity="right|bottom"
-        android:layout_marginBottom="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_margin="20dp"
-        android:alpha="225"
-        android:clickable="true" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <Button
-        android:layout_width="175dp"
-        android:layout_height="95dp"
-        android:text="start"
-        android:id="@+id/start"
-        android:layout_gravity="bottom|left"
-        android:background="#73c399"
-        android:textSize="70px"
-        android:focusable="true"
-        android:layout_margin="25dp"
-        android:clickable="true"
-        android:textColor="#ffffff" />
-
-    <ScrollView
-        android:layout_width="330dp"
-        android:layout_height="475dp"
-        android:id="@+id/scrollView"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp"
-        android:background="#78c59c"
-        android:layout_marginBottom="30dp">
-
-        <TextView
+        <ScrollView
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:id="@+id/textView"
-            android:layout_gravity="center_horizontal|top"
-            android:text="Press Start to Record!"
-            android:padding="25dp"
-            android:textColor="#ffffff" />
-    </ScrollView>
+            android:id="@+id/scrollView"
+            android:layout_gravity="center"
+            android:background="#78c59c"
+            android:layout_weight="1"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:id="@+id/textView"
+                android:layout_gravity="center_horizontal|top"
+                android:text="Press Start to Record!"
+                android:padding="25dp"
+                android:textColor="#ffffff" />
+        </ScrollView>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="117dp"
+            android:layout_margin="20dp">
+
+            <Button
+                android:layout_width="175dp"
+                android:layout_height="95dp"
+                android:text="start"
+                android:id="@+id/start"
+                android:background="#73c399"
+                android:textSize="70px"
+                android:focusable="true"
+                android:clickable="true"
+                android:textColor="#ffffff"
+                android:layout_gravity="center_vertical|left"
+                android:layout_marginRight="20dp" />
+
+            <ImageButton
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:id="@+id/record"
+                android:background="@drawable/trophy"
+                android:clickable="true"
+                android:layout_gravity="center_vertical|right"
+                android:layout_marginLeft="20dp" />
+        </LinearLayout>
+    </LinearLayout>
 
 </FrameLayout>

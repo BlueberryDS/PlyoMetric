@@ -176,7 +176,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     yReadings.clear();
                 }
                 else if ("end".equals(button.getText())) {
-                    button.setText("start");
+                    button.setText("Analysing...");
                     //unregister listener
                     senSensorManager.unregisterListener(context);
                     //Analyse
@@ -192,19 +192,19 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                         double height = (hangTime * hangTime) * 4.9;
                         double maxAcc = findMaxAcc(marks.get(i).liftPhase);
                         console.append(String.format("---  Jump : %s  ---\n", jumpNum));
-                        console.append(String.format("Hang Time :    %.3f\n", hangTime));
+                        console.append(String.format("Hang Time :    %.3fs\n", hangTime));
                         if(hangTime > RecordsActivity.hang){
                             console.append("RECORD BROKEN!\n");
                             RecordsActivity.hang = hangTime;
                             RecordsActivity.breaks++;
                         }
-                        console.append(String.format("Height :       %.3f\n", height));
+                        console.append(String.format("Height :       %.3fm\n", height));
                         if(height > RecordsActivity.height){
                             console.append("RECORD BROKEN!\n");
                             RecordsActivity.height = height;
                             RecordsActivity.breaks++;
                         }
-                        console.append(String.format("Max Accel. :   %.3f\n", maxAcc));
+                        console.append(String.format("Max Accel. :   %.3fm/s^2\n", maxAcc));
                         if(maxAcc > RecordsActivity.accel){
                             console.append("RECORD BROKEN!\n");
                             RecordsActivity.accel = maxAcc;
@@ -226,6 +226,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     //textViewMax.setText(String.format("MaxAcc: %s", findMaxAcc(marks.get(0).liftPhase)));
 
                     textView.setText(console.toString());
+                    button.setText("start");
                 }
             }
         });

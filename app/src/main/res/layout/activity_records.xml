@@ -16,7 +16,8 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#1a1a1a">
+        android:background="#1a1a1a"
+        android:id="@+id/Screen">
 
         <TextView
             android:layout_width="fill_parent"
@@ -80,7 +81,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="Hang Time"
+                    android:text="Hang Time (s)"
                     android:id="@+id/textView3"
                     android:layout_weight="0.5"
                     android:textAlignment="center"
@@ -91,7 +92,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="Height"
+                    android:text="Height (m)"
                     android:id="@+id/textView6"
                     android:layout_weight="0.5"
                     android:textAlignment="center"
@@ -144,7 +145,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="Acceleration"
+                    android:text="Acceleration (m/s^2)"
                     android:id="@+id/textView9"
                     android:layout_weight="0.5"
                     android:textAlignment="center"
@@ -165,15 +166,14 @@
 
             <Button
                 android:layout_width="200dp"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:text="Share"
                 android:id="@+id/share"
                 android:layout_gravity="center"
-                android:clickable="true"
-                android:background="#3b5998"
-                android:textColor="#ffffff"
                 android:layout_margin="20dp"
-                android:enabled="true" />
+                android:clickable="true"
+                android:enabled="true"
+                android:background="#8f6600" />
 
         </LinearLayout>
 

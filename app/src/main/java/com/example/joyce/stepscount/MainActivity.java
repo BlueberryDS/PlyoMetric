@@ -118,6 +118,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     TextView textViewY;
     TextView textViewZ;
     TextView textViewMax;
+    TextView textViewSamples;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -128,6 +129,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         textViewY = (TextView) findViewById(R.id.textView2);
         textViewZ = (TextView) findViewById(R.id.textView3);
         textViewMax = (TextView) findViewById(R.id.textView4);
+        //textViewSamples = (TextView) findViewById(R.id.textView5);
 
         mVisible = true;
         mControlsView = findViewById(R.id.fullscreen_content_controls);
@@ -173,9 +175,14 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     button.setText("start");
                     //unregister listener
                     senSensorManager.unregisterListener(context);
-                    //List<Reading> smoothedReadings = lowpass(yReadings,  );
+                    //Analyse
+                    List<Reading> smoothedReadings = lowpass(yReadings, 0.01);
 
-                    textViewMax.setText(String.format("Max Acc: %.3f", findMaxAcc(yReadings)));
+                    Markers mark = markReadings(smoothedReadings);
+
+                    //textViewSamples.setText(String.format("Samples: %s", mark.liftPhase.size()));
+
+                    textViewMax.setText(String.format("Max Acc: %.3f", findMaxAcc(mark.liftPhase )));
                     numOfJump =0;
 
                 }
